@@ -1,12 +1,13 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
 # compiled output
-dist
-tmp
+/dist
+/tmp
 /out-tsc
+/docs
 
 # dependencies
-node_modules
+**/node_modules
 
 # IDEs and editors
 /.idea
@@ -16,6 +17,7 @@ node_modules
 *.launch
 .settings/
 *.sublime-workspace
+.scannerwork
 
 # IDE - VSCode
 .vscode/*
@@ -37,3 +39,60 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+**/.env
+**/.env.*
+!**/.env.example
+.env.test
+.docker/
+ormconfig.json
+*.js.map
+/tools/executors/db-utils/db-import/main.js
+# Serverless
+.serverless
+.webpack
+
+# Terraform
+/deployment/**/.terraform/*
+/deployment/**/*.tfstate
+/deployment/**/*.tfstate.*
+/deployment/**/crash.log
+/deployment/**/crash.*.log
+/deployment/**/*.tfvars
+/deployment/**/override.tf
+/deployment/**/override.tf.json
+/deployment/**/*_override.tf
+/deployment/**/*_override.tf.json
+/deployment/**/.terraformrc
+/deployment/**/terraform.rc
+/deployment/**/*.pem
+/deployment/terraform/meteotrack/builds
+
+**/*.pem
+
+.gitlab-ci-local
+
+.vscode
+
+/buckets
+
+**/.yarn-cache/**/*
+!.yarn-cache/.gitkeep
+.nx-container
+
+**/.ts-node/
+**/temp/**/*
+!tools/assistant/embeddings/temp/*
+**/__pycache__
+
+# FE libs locales hack
+apps/**/locales/libs/
+
+depcheck.json
+
+.secrets.env
+.env.backup-*
+
+.profile/
+.tmp/
+
