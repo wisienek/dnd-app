@@ -4,35 +4,15 @@
     "default": {
       "runner": "nx/tasks-runners/default",
       "options": {
-        "cacheableOperations": [
-          "build",
-          "lint",
-          "test",
-          "e2e"
-        ]
+        "cacheableOperations": ["build", "lint", "test", "e2e"],
+        "accessToken": "NzY4NDAzOGEtNTg1NS00ZTg3LWE3NjEtMGYzMTBmOTBjZjM2fHJlYWQtd3JpdGU="
       }
     }
   },
-  "workspaceLayout": {
-    "projectNameAndRootFormat": "as-provided"
-  },
+  "workspaceLayout": { "projectNameAndRootFormat": "as-provided" },
   "targetDefaults": {
-    "build": {
-      "dependsOn": [
-        "^build"
-      ],
-      "inputs": [
-        "production",
-        "^production"
-      ]
-    },
-    "test": {
-      "inputs": [
-        "default",
-        "^production",
-        "{workspaceRoot}/jest.preset.js"
-      ]
-    },
+    "build": { "dependsOn": ["^build"], "inputs": ["production", "^production"] },
+    "test": { "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"] },
     "lint": {
       "inputs": [
         "default",
@@ -43,10 +23,7 @@
     }
   },
   "namedInputs": {
-    "default": [
-      "{projectRoot}/**/*",
-      "sharedGlobals"
-    ],
+    "default": ["{projectRoot}/**/*", "sharedGlobals"],
     "production": [
       "default",
       "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
