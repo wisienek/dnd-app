@@ -47,7 +47,6 @@ Thumbs.db
 .docker/
 ormconfig.json
 *.js.map
-/tools/executors/db-utils/db-import/main.js
 # Serverless
 .serverless
 .webpack
@@ -96,6 +95,8 @@ depcheck.json
 .profile/
 .tmp/
 
-
 .nx/cache
 .nx/workspace-data
+
+*.cpuprofile
+.tsbuildinfo
