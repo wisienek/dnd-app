@@ -25,8 +25,9 @@
     }
   },
   "tags": [
-    "backend",
-    "be",
-    "aws"
+    "scope:backend",
+    "scope:aws",
+    "scope:cloud",
+    "type:lib"
   ]
 }

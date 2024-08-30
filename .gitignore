@@ -96,3 +96,6 @@ depcheck.json
 .profile/
 .tmp/
 
+
+.nx/cache
+.nx/workspace-data

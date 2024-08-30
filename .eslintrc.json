@@ -1,20 +1,17 @@
 {
   "root": true,
-  "ignorePatterns": [
-    "**/*"
-  ],
-  "plugins": [
-    "@nx"
-  ],
+  "ignorePatterns": ["**/*"],
+  "plugins": ["@nx"],
   "overrides": [
     {
-      "files": [
-        "*.ts",
-        "*.tsx",
-        "*.js",
-        "*.jsx"
-      ],
+      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
       "rules": {
+        "@typescript-eslint/consistent-type-imports": [
+          "warn",
+          {
+            "prefer": "type-imports"
+          }
+        ],
         "@nx/enforce-module-boundaries": [
           "error",
           {
@@ -23,9 +20,7 @@
             "depConstraints": [
               {
                 "sourceTag": "*",
-                "onlyDependOnLibsWithTags": [
-                  "*"
-                ]
+                "onlyDependOnLibsWithTags": ["*"]
               }
             ]
           }
@@ -33,32 +28,61 @@
       }
     },
     {
-      "files": [
-        "*.ts",
-        "*.tsx"
-      ],
+      "files": ["*.ts", "*.tsx"],
       "extends": [
-        "plugin:@nx/typescript"
+        "plugin:@nx/typescript",
+        "eslint:recomemnded",
+        "plugin:@typescript-eslint/recomended",
+        "plugin:prettier/recomended"
       ],
-      "rules": {}
+      "plugins": ["@typescript-eslint/eslint-plugin"],
+      "rules": {
+        "curly": "error",
+        "@typescript-eslint/prefer-for-of": "error",
+        "@typescript-eslit/no-extra-semi": "error",
+        "no-extra-semi": "off",
+        "@typescript-eslint/no-explicit-any": "erorr",
+        "@typescript-eslint/no-duplicate-enum-values": "warn",
+        "@typescript-eslint/explicit-function-return-type": [
+          "error",
+          {
+            "allowFunctionsWithoutTypeParameters": true,
+            "allowIIFEs": true
+          }
+        ],
+        "@typescript-eslint/ban-types": [
+          "error",
+          {
+            "types": {
+              "{}": false
+            },
+            "extendedDefaults": true
+          }
+        ],
+        "@typescript-eslint/no-unused-vars": [
+          "warn",
+          {
+            "args": "all",
+            "argsIgnorePattern": "^_",
+            "caughtErrors": "all",
+            "caughtErrorsIgnorePattern": "^_",
+            "destructuredArrayIgnorePattern": "^_",
+            "ignoreResetSiblings": true
+          }
+        ],
+        "@typescript-eslint/no-extra-semi": "error"
+      }
     },
     {
-      "files": [
-        "*.js",
-        "*.jsx"
-      ],
-      "extends": [
-        "plugin:@nx/javascript"
-      ],
-      "rules": {}
+      "files": ["*.js", "*.jsx"],
+      "extends": ["plugin:@nx/javascript"],
+      "rules": {
+        "@typescript-eslint/no-extra-semi": "error",
+        "no-extra-semi": "off"
+      }
     },
     {
-      "files": [
-        "*.spec.ts",
-        "*.spec.tsx",
-        "*.spec.js",
-        "*.spec.jsx"
-      ],
+      "files": ["*.spec.ts", "*.spec.tsx", "*.spec.js", "*.spec.jsx"],
       "env": {
         "jest": true
       },

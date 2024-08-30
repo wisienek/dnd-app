@@ -19,5 +19,5 @@
       }
     }
   },
-  "tags": ["backend", "mapper", "docs"]
+  "tags": ["scope:backend", "scope:mapper", "type:lib"]
 }

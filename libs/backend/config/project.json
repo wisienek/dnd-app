@@ -26,8 +26,8 @@
     }
   },
   "tags": [
-    "backend",
-    "be",
-    "config"
+    "scope:backend",
+    "scope:config",
+    "type:lib"
   ]
 }

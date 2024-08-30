@@ -59,10 +59,8 @@
     }
   },
   "tags": [
-    "server",
-    "db",
-    "database",
-    "backend",
-    "be"
+    "scope:backend",
+    "scope:database",
+    "type:lib"
   ]
 }
