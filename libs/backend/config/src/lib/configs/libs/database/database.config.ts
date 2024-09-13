@@ -6,28 +6,28 @@ import { BaseConfig } from '../../../base.config';
 export class DatabaseConfig extends BaseConfig {
   constructor(
     @Inject(DatabaseEnv.KEY)
-    protected env: _DatabaseEnv,
+    protected env: _DatabaseEnv
   ) {
     super();
   }
 
   get host() {
-    return this.env.GAME_DB_HOST;
+    return this.env.DB_HOST;
   }
 
   get port() {
-    return this.env.GAME_DB_PORT;
+    return this.env.DB_PORT;
   }
 
   get user() {
-    return this.env.GAME_DB_USERNAME;
+    return this.env.DB_USERNAME;
   }
 
   get password() {
-    return this.env.GAME_DB_PASSWORD;
+    return this.env.DB_PASSWORD;
   }
 
   get db() {
-    return this.env.GAME_DB_DATABASE;
+    return this.env.DB_DATABASE;
   }
 }

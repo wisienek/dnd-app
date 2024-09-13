@@ -7,6 +7,7 @@ export enum NodeEnv {
   PROD = 'production',
   DEV = 'development',
   TEST = 'test',
+  LOCAL = 'local',
 }
 
 export class _ProjectEnv {
@@ -20,6 +21,4 @@ export class _ProjectEnv {
   BUCKET_CONFIG_NAME: string;
 }
 
-export const ProjectEnv = registerAs('project', () =>
-  validateUtil(process.env, _ProjectEnv)
-);
+export const ProjectEnv = registerAs('project', () => validateUtil(process.env, _ProjectEnv));

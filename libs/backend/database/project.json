@@ -4,40 +4,17 @@
   "targets": {
     "lint": {
       "executor": "@nrwl/linter:eslint",
-      "outputs": [
-        "{options.outputFile}"
-      ],
+      "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": [
-          "libs/backend/database/**/*.ts"
-        ]
+        "lintFilePatterns": ["libs/backend/database/**/*.ts"]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": [
-        "coverage/libs/backend/database"
-      ],
+      "outputs": ["coverage/libs/backend/database"],
       "options": {
         "jestConfig": "libs/backend/database/jest.config.js",
         "passWithNoTests": true
-      }
-    },
-    "migration": {
-      "executor": "@nrwl/workspace:run-commands",
-      "configurations": {
-        "generate": {
-          "forwardAllArgs": false,
-          "commands": [
-            "yarn run typeorm -d libs/backend/database/src/data-source.ts migration:generate libs/backend/database/src/lib/migrations/{args.name}"
-          ]
-        },
-        "revert": {
-          "forwardAllArgs": false,
-          "commands": [
-            "yarn run typeorm -d libs/backend/database/src/data-source.ts migration:revert"
-          ]
-        }
       }
     },
     "typeorm": {
@@ -45,22 +22,13 @@
       "configurations": {
         "forwardAllArgs": false,
         "drop": {
-          "commands": [
-            "yarn run typeorm -d libs/backend/database/src/data-source.ts schema:drop"
-          ]
+          "commands": ["yarn run typeorm -d libs/backend/database/src/data-source.ts schema:drop"]
         },
         "log": {
-          "commands": [
-            "yarn run typeorm -d libs/backend/database/src/data-source.ts schema:log"
-          ]
+          "commands": ["yarn run typeorm -d libs/backend/database/src/data-source.ts schema:log"]
         }
-
       }
     }
   },
-  "tags": [
-    "scope:backend",
-    "scope:database",
-    "type:lib"
-  ]
+  "tags": ["scope:backend", "scope:database", "type:lib"]
 }

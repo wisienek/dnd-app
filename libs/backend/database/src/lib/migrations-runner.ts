@@ -1,9 +1,10 @@
 import { DataSource } from 'typeorm';
 import { getConfig } from './db-config';
 import { migrations } from './migrations';
+import { DbType } from '@dnd-app/core';
 
-export const migrationsRunner = async () => {
-  const dbConfig = getConfig();
+export const migrationsRunner = async (dbType: DbType) => {
+  const dbConfig = getConfig(dbType);
 
   const connection = await new DataSource({
     ...dbConfig,

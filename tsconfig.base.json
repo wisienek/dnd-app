@@ -3,6 +3,7 @@
   "compilerOptions": {
     "strictPropertyInitialization": false,
     "rootDir": ".",
+    "jsx": "react-jsx",
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "node",
@@ -11,23 +12,28 @@
     "importHelpers": true,
     "target": "es2015",
     "module": "esnext",
-    "lib": ["es2020", "dom"],
+    "lib": ["es2020", "dom", "esnext"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
+    "resolveJsonModule": true,
     "baseUrl": ".",
+    "allowJs": true,
     "paths": {
+      "@dnd-app/application": ["libs/hex/application/src/index.ts"],
       "@dnd-app/aws": ["libs/backend/aws/src/index.ts"],
       "@dnd-app/config": ["libs/backend/config/src/index.ts"],
       "@dnd-app/core": ["libs/core/src/index.ts"],
       "@dnd-app/data": ["libs/shared/src/data/index.ts"],
       "@dnd-app/db": ["libs/backend/database/src/index.ts"],
+      "@dnd-app/ddd": ["libs/hex/ddd/src/index.ts"],
       "@dnd-app/dto": ["libs/shared/src/dto/index.ts"],
       "@dnd-app/enums": ["libs/shared/src/enums/index.ts"],
+      "@dnd-app/exceptions": ["libs/hex/exceptions/src/index.ts"],
       "@dnd-app/mapper": ["libs/backend/mapper/src/index.ts"],
       "@dnd-app/schema": ["libs/shared/src/schema/index.ts"],
       "@dnd-app/types": ["libs/shared/src/types/index.ts"],
       "@dnd-app/utils": ["libs/shared/src/utils/index.ts"]
     }
   },
-  "exclude": ["node_modules", "tmp"]
+  "exclude": ["node_modules", "tmp", "minio"]
 }

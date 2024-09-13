@@ -1,15 +1,13 @@
-import { DynamicModule, Module } from '@nestjs/common';
+import { DynamicModule, Global, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { ClassConstructor } from 'class-transformer';
 import { BaseConfig } from './base.config';
 import {
   DatabaseConfig,
-  DiscordConfig,
   ProjectConfig,
   ServerConfig,
   AwsConfig,
   DatabaseEnv,
-  DiscordEnv,
   ProjectEnv,
   ServerEnv,
   AwsEnv,
@@ -19,7 +17,6 @@ const CONFIGS = {
   [ProjectConfig.name]: ProjectEnv,
   [ServerConfig.name]: ServerEnv,
   [DatabaseConfig.name]: DatabaseEnv,
-  [DiscordConfig.name]: DiscordEnv,
   [AwsConfig.name]: AwsEnv,
 };
 
@@ -28,6 +25,7 @@ export function getStaticConfig<T>(config: ClassConstructor<T>): T {
   return new config(configEnv());
 }
 
+@Global()
 @Module({})
 export class ConfigModuleInternal {
   static forConfigs(...configs: ClassConstructor<BaseConfig>[]): DynamicModule {

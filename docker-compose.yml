@@ -6,21 +6,20 @@ networks:
     driver: bridge
 
 services:
-  mysql_game:
+  game_db:
     container_name: game_db
-    image: mysql:8.0-oracle
+    image: postgres:15.8-alpine
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: ${GAME_DB_DATABASE}
-      MYSQL_USER: ${GAME_DB_USERNAME}
-      MYSQL_PASSWORD: ${GAME_DB_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
     ports:
-      - ${GAME_DB_PORT}:3306
+      - ${DB_PORT}:5432
     volumes:
-      - ./.docker/game_db:/var/lib/mysql
+      - ./.docker/game_db:/var/lib/postgresql/data
     extra_hosts:
-      - "host.docker.internal:host-gateway"
+      - 'host.docker.internal:host-gateway'
 
   minio:
     container_name: bucket_manager
@@ -29,10 +28,8 @@ services:
     environment:
       MINIO_ROOT_USER: ${MINIO_ROOT_USER}
       MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
-      MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY}
-      MINIO_SECRET_KEY: ${MINIO_SECRET_KEY}
       MINIO_REGION_NAME: ${MINIO_REGION_NAME}
-      MINIO_CONFIG_ENV_FILE: ".env"
+      MINIO_CONFIG_ENV_FILE: '.env'
     command: server --console-address ":9001" /mnt/data
     volumes:
       - ./.docker/minio:/mnt/data
@@ -43,7 +40,7 @@ services:
       - '${MINIO_PORT_CONSOLE}:9001'
       - '${MINIO_PORT_HOST}:9000'
     healthcheck:
-      test: [ "CMD", "curl", "-f", 'http://localhost:9001/minio/health/live' ]
+      test: ['CMD', 'curl', '-f', 'http://localhost:9001/minio/health/live']
       interval: 30s
       timeout: 20s
       retries: 3
@@ -51,5 +48,6 @@ services:
   redis:
     container_name: game_redis
     image: redis:6
+    restart: always
     ports:
       - '6379:6379'

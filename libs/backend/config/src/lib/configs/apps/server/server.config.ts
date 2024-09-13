@@ -6,17 +6,13 @@ import { BaseConfig } from '../../../base.config';
 export class ServerConfig extends BaseConfig {
   constructor(
     @Inject(ServerEnv.KEY)
-    protected env: _ServerEnv,
+    protected env: _ServerEnv
   ) {
     super();
   }
 
   get port() {
     return this.env.APP_PORT;
-  }
-
-  get globalPrefix() {
-    return this.env.GLOBAL_PREFIX;
   }
 
   get cookieSecret() {

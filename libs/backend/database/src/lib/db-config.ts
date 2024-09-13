@@ -1,36 +1,54 @@
+import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
 import { DataSourceOptions } from 'typeorm';
 import { join } from 'path';
 import { DatabaseConfig, getStaticConfig } from '@dnd-app/config';
-import { Background, Backpack, DownloaderFile, GameDCLink, Version } from './entities';
+import { DbType } from '@dnd-app/core';
+import { RefreshToken, User, UserBasicAuth } from './entities/idm';
 
-const getDefaultConfig = (): DataSourceOptions => {
+const getDefaultConfig = (): PostgresConnectionOptions => {
   const config = getStaticConfig(DatabaseConfig);
 
   return {
-    type: 'mariadb',
+    type: 'postgres',
+    host: config.host,
     port: config.port,
-    database: config.db,
     username: config.user,
     password: config.password,
-    host: config.host,
-    charset: 'utf8mb4',
-    timezone: 'Z',
+    schema: 'public',
     migrationsTableName: 'migrations',
   };
 };
 
-export const getConfig = (): DataSourceOptions => {
-  return {
-    ...getDefaultConfig(),
-    entities: [GameDCLink, Backpack, DownloaderFile, Version, Background],
-  };
+export const getConfig = (type: DbType): DataSourceOptions => {
+  const defaultConfig = getDefaultConfig();
+
+  switch (type) {
+    case DbType.APP: {
+      return {
+        ...defaultConfig,
+        name: DbType.APP.toLowerCase(),
+        database: DbType.APP.toLowerCase(),
+        entities: [],
+        migrations: [],
+      };
+    }
+    case DbType.IDM: {
+      return {
+        ...defaultConfig,
+        name: DbType.IDM.toLowerCase(),
+        database: DbType.IDM.toLowerCase(),
+        entities: [User, UserBasicAuth, RefreshToken],
+        migrations: [],
+      };
+    }
+  }
 };
 
-export const exportConfig = (): DataSourceOptions => {
+export const exportConfig = (type: DbType): DataSourceOptions => {
   return {
     ...getDefaultConfig(),
-    entities: [join(__dirname, '/**/*.entity{.ts,.js}')],
-    migrations: [join(__dirname, '/migrations/**/*{.ts,.js}')],
+    entities: [join(__dirname, type.toLowerCase(), '/**/*.entity{.ts,.js}')],
+    migrations: [join(__dirname, type.toLowerCase(), '/migrations/**/*{.ts,.js}')],
     // cli: {
     //   migrationsDir: 'libs/backend/database/src/lib/migrations',
     // },

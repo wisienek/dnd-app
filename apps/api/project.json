@@ -3,25 +3,29 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/api/src",
   "projectType": "application",
-  "tags": ["scope:backend", "type:app"],
+  "tags": ["scope:backend", "type:app", "scope:api"],
   "targets": {
     "build": {
       "executor": "@nx/webpack:webpack",
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
+        "generatePackageJson": true,
         "target": "node",
-        "compiler": "tsc",
+        "compiler": "swc",
         "outputPath": "dist/apps/api",
         "main": "apps/api/src/main.ts",
         "tsConfig": "apps/api/tsconfig.app.json",
         "assets": ["apps/api/src/assets"],
-        "isolatedConfig": true,
         "webpackConfig": "apps/api/webpack.config.js"
       },
       "configurations": {
         "development": {},
-        "production": {}
+        "production": {
+          "optimization": true,
+          "extractLicenses": true,
+          "inspect": false
+        }
       }
     },
     "serve": {

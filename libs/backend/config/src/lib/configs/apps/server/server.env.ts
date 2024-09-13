@@ -15,14 +15,7 @@ export class _ServerEnv {
   @IsString()
   @IsNotEmpty()
   @Expose()
-  GLOBAL_PREFIX = 'api';
-
-  @IsString()
-  @IsNotEmpty()
-  @Expose()
   COOKIE_SECRET: string;
 }
 
-export const ServerEnv = registerAs('server', () =>
-  validateUtil(process.env, _ServerEnv),
-);
+export const ServerEnv = registerAs('server', () => validateUtil(process.env, _ServerEnv));

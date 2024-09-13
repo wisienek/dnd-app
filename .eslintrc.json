@@ -19,8 +19,20 @@
             "allow": [],
             "depConstraints": [
               {
+                "sourceTag": "scope:domain",
+                "notDependendOnLibsWithTags": ["scope:api", "type:app", "scope:infra"]
+              },
+              {
+                "sourceTag": "scope:infra",
+                "notDependendOnLibsWithTags": ["scope:api"]
+              },
+              {
+                "sourceTag": "type:command",
+                "notDependendOnLibsWithTags": ["scope:api"]
+              },
+              {
                 "sourceTag": "*",
-                "onlyDependOnLibsWithTags": ["*"]
+                "notDependendOnLibsWithTags": ["type:deprecated"]
               }
             ]
           }
