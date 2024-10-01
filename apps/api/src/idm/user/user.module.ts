@@ -1,7 +1,6 @@
-import { getDataSourceToken, getRepositoryToken, TypeOrmModule } from '@nestjs/typeorm';
 import { Logger, Module, Provider } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { CqrsModule } from '@nestjs/cqrs';
-import { DataSource } from 'typeorm';
 import { DbType } from '@dnd-app/core';
 import { User } from '@dnd-app/db';
 import { FindUsersHttpController, FindUsersQueryHandler } from './queries';
@@ -29,16 +28,7 @@ const queryHandlers: Provider[] = [FindUsersQueryHandler];
 
 const mappers: Provider[] = [UserMapper];
 
-const repositories: Provider[] = [
-  {
-    provide: getRepositoryToken(User),
-    inject: [getDataSourceToken(DbType.IDM)],
-    useFactory(datasource: DataSource) {
-      return datasource.getRepository(User).extend(UserRepository);
-    },
-  },
-  { provide: USER_REPOSITORY, useClass: UserRepository },
-];
+const repositories: Provider[] = [{ provide: USER_REPOSITORY, useClass: UserRepository }];
 
 const providers: Provider[] = [
   Logger,

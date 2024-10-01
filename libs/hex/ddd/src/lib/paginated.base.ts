@@ -12,7 +12,7 @@ export class Paginated<T> {
   }
 }
 
-export type OrderBy = { field: string | true; param: 'asc' | 'desc' };
+export type OrderBy = { field: string; param: 'ASC' | 'DESC' };
 
 export type PaginatedQueryParams = {
   limit: number;

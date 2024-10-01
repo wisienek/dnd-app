@@ -1,6 +1,6 @@
-import { DynamicModule, Global, Module } from '@nestjs/common';
+import { type DynamicModule, Global, Module } from '@nestjs/common';
+import { type ClassConstructor } from 'class-transformer';
 import { ConfigModule } from '@nestjs/config';
-import { ClassConstructor } from 'class-transformer';
 import { BaseConfig } from './base.config';
 import {
   DatabaseConfig,

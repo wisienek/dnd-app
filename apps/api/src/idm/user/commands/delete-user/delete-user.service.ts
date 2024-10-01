@@ -4,26 +4,28 @@ import { Inject } from '@nestjs/common';
 import { NotFoundException } from '@dnd-app/exceptions';
 import { DeleteUserCommand } from './delete-user.command';
 import { USER_REPOSITORY } from '../../user.di-tokens';
-import { UserRepository } from '../../database';
+import { UserRepositoryPort } from '../../database';
 import { UserMapper } from '../../user.mapper';
 
 @CommandHandler(DeleteUserCommand)
 export class DeleteUserService {
   constructor(
     @Inject(USER_REPOSITORY)
-    private readonly userRepo: UserRepository,
+    private readonly userRepo: UserRepositoryPort,
     private readonly userMapper: UserMapper
   ) {}
 
   async execute(command: DeleteUserCommand): Promise<Result<boolean, NotFoundException>> {
-    const found = await this.userRepo.findOneBy({ id: command.userId });
-    if (!found) {
+    const found = await this.userRepo.findOneById(command.userId);
+    if (!found.isSome()) {
       return Err(new NotFoundException());
     }
-    const user = this.userMapper.toDomain(found);
-    user.delete();
-    const result = await this.userRepo.delete(found.id);
+    const unwrapped = found.unwrap();
 
-    return Ok(result?.affected > 0);
+    const user = this.userMapper.toDomain(unwrapped);
+    user.delete();
+    const result = await this.userRepo.delete(unwrapped);
+
+    return Ok(result);
   }
 }

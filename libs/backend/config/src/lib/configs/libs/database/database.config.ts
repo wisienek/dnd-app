@@ -26,8 +26,4 @@ export class DatabaseConfig extends BaseConfig {
   get password() {
     return this.env.DB_PASSWORD;
   }
-
-  get db() {
-    return this.env.DB_DATABASE;
-  }
 }

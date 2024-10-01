@@ -3,7 +3,7 @@ import { Mapper } from '@dnd-app/ddd';
 import { User } from '@dnd-app/db';
 import { BasicAuthEntity, RefreshTokenEntity, UserEntity } from './domain';
 import { USER_REPOSITORY } from './user.di-tokens';
-import { UserRepository } from './database';
+import { UserRepositoryPort } from './database';
 import { UserResponseDto } from './dto';
 
 // TODO: Change to automapper
@@ -11,7 +11,7 @@ import { UserResponseDto } from './dto';
 export class UserMapper implements Mapper<UserEntity, User, UserResponseDto> {
   constructor(
     @Inject(USER_REPOSITORY)
-    private userRepository: UserRepository
+    private userRepository: UserRepositoryPort
   ) {}
 
   async toPersistence(entity: UserEntity): Promise<User> {
@@ -29,7 +29,7 @@ export class UserMapper implements Mapper<UserEntity, User, UserResponseDto> {
       type: copy.type,
     };
 
-    return this.userRepository.save(record);
+    return this.userRepository.insert(record);
   }
 
   toDomain(record: User): UserEntity {

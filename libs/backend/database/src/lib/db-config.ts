@@ -1,9 +1,10 @@
-import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
+import type { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
 import { DataSourceOptions } from 'typeorm';
 import { join } from 'path';
 import { DatabaseConfig, getStaticConfig } from '@dnd-app/config';
 import { DbType } from '@dnd-app/core';
 import { RefreshToken, User, UserBasicAuth } from './entities/idm';
+import { InitialMigration1727789756173 } from './migrations/idm';
 
 const getDefaultConfig = (): PostgresConnectionOptions => {
   const config = getStaticConfig(DatabaseConfig);
@@ -26,7 +27,7 @@ export const getConfig = (type: DbType): DataSourceOptions => {
     case DbType.APP: {
       return {
         ...defaultConfig,
-        name: DbType.APP.toLowerCase(),
+        name: DbType.APP,
         database: DbType.APP.toLowerCase(),
         entities: [],
         migrations: [],
@@ -35,10 +36,10 @@ export const getConfig = (type: DbType): DataSourceOptions => {
     case DbType.IDM: {
       return {
         ...defaultConfig,
-        name: DbType.IDM.toLowerCase(),
+        name: DbType.IDM,
         database: DbType.IDM.toLowerCase(),
         entities: [User, UserBasicAuth, RefreshToken],
-        migrations: [],
+        migrations: [InitialMigration1727789756173],
       };
     }
   }

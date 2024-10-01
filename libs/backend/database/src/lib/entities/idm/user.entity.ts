@@ -27,7 +27,7 @@ export class User {
   @Column()
   email: string;
 
-  @Column({ type: 'enum', enum: Locales, length: 8, default: Locales.EN })
+  @Column({ type: 'enum', enum: Locales, default: Locales.EN })
   locale: Locales;
 
   @Column({

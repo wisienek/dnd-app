@@ -10,14 +10,18 @@ services:
     container_name: game_db
     image: postgres:15.8-alpine
     restart: always
+    networks:
+      - dnd-net
     environment:
-      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_DB: ${DB_DATABASE_APP}
       POSTGRES_USER: ${DB_USERNAME}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_MULTIPLE_DATABASES: ${DB_DATABASE_IDM}
     ports:
       - ${DB_PORT}:5432
     volumes:
       - ./.docker/game_db:/var/lib/postgresql/data
+      - ./libs/backend/database/src/cli-data-source/init-scripts:/docker-entrypoint-initdb.d
     extra_hosts:
       - 'host.docker.internal:host-gateway'
 
@@ -25,14 +29,15 @@ services:
     container_name: bucket_manager
     image: quay.io/minio/minio:latest
     platform: linux/x86_64
+    networks:
+      - dnd-net
     environment:
       MINIO_ROOT_USER: ${MINIO_ROOT_USER}
       MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
       MINIO_REGION_NAME: ${MINIO_REGION_NAME}
-      MINIO_CONFIG_ENV_FILE: '.env'
     command: server --console-address ":9001" /mnt/data
     volumes:
-      - ./.docker/minio:/mnt/data
+      - ./.docker/minio:/data
       - type: bind
         source: ./minio
         target: /etc/config_env
@@ -49,5 +54,24 @@ services:
     container_name: game_redis
     image: redis:6
     restart: always
+    networks:
+      - dnd-net
     ports:
       - '6379:6379'
+
+  smtp:
+    container_name: mailing_service
+    networks:
+      - dnd-net
+    image: maildev/maildev:latest
+    environment:
+      MAILDEV_IP: ${SMTP_HOST}
+      MAILDEV_SMTP_PORT: ${SMTP_PORT}
+      MAILDEV_INCOMING_USER: ${SMTP_USER}
+      MAILDEV_INCOMING_PASS: ${SMTP_PASSWORD}
+      MAILDEV_WEB_IP: ${SMTP_WEB_HOST}
+      MAILDEV_WEB_PORT: ${SMTP_WEB_PORT}
+    ports:
+      - '${SMTP_PORT}:465'
+      - '${SMTP_WEB_PORT}:1080'
+

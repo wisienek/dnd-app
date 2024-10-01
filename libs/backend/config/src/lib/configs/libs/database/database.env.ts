@@ -26,11 +26,6 @@ export class _DatabaseEnv {
   @IsNotEmpty()
   @Expose()
   DB_PASSWORD: string;
-
-  @IsString()
-  @IsNotEmpty()
-  @Expose()
-  DB_DATABASE: string;
 }
 
 export const DatabaseEnv = registerAs('database', () => validateUtil(process.env, _DatabaseEnv));

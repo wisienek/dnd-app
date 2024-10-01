@@ -8,3 +8,4 @@ export * from './mapper.interface';
 export * from './paginated.base';
 export * from './query.base';
 export * from './value-object.base';
+export * from './repository.port';

@@ -1,6 +1,5 @@
 import { DataSource } from 'typeorm';
 import { getConfig } from './db-config';
-import { migrations } from './migrations';
 import { DbType } from '@dnd-app/core';
 
 export const migrationsRunner = async (dbType: DbType) => {
@@ -11,7 +10,6 @@ export const migrationsRunner = async (dbType: DbType) => {
     synchronize: false,
     logging: true,
     name: 'MIGRATIONS_CONN',
-    migrations,
   }).initialize();
 
   await connection.runMigrations({ transaction: 'each' });

@@ -17,6 +17,29 @@
         "passWithNoTests": true
       }
     },
+    "migration": {
+      "executor": "nx:run-commands",
+      "configurations": {
+        "generate": {
+          "forwardAllArgs": false,
+          "commands": [
+            "yarn run typeorm -d libs/backend/database/src/cli-data-source/{args.conn}.ts migration:generate libs/backend/database/src/lib/migrations/{args.conn}/{args.name}"
+          ]
+        },
+        "run": {
+          "forwardAllArgs": false,
+          "commands": [
+            "yarn run typeorm -d libs/backend/database/cli-data-source/{args.conn}.ts migration:run"
+          ]
+        },
+        "revert": {
+          "forwardAllArgs": false,
+          "commands": [
+            "yarn run typeorm -d libs/backend/database/cli-data-source/{args.conn}.ts migration:revert"
+          ]
+        }
+      }
+    },
     "typeorm": {
       "executor": "@nrwl/workspace:run-commands",
       "configurations": {
