@@ -4,11 +4,9 @@ import { Module, type Provider } from '@nestjs/common';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { CqrsModule } from '@nestjs/cqrs';
 import { ContextInterceptor, ExceptionInterceptor } from '@dnd-app/application';
-import { ConfigModuleInternal, ServerConfig } from '@dnd-app/config';
-import { DataBaseModule, getConfig } from '@dnd-app/db';
+import { ApiConfig, ProjectConfig, getConfigs } from '@dnd-app/config';
+import { DataBaseModule } from '@dnd-app/db';
 import { UserModule } from '../idm';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { DbType } from '@dnd-app/core';
 
 const interceptors: Provider[] = [
   {
@@ -23,13 +21,15 @@ const interceptors: Provider[] = [
 
 const internalModules = [UserModule];
 
+const configs = getConfigs(ProjectConfig, ApiConfig);
+
 @Module({
   imports: [
     DataBaseModule,
     EventEmitterModule.forRoot(),
     RequestContextModule,
     CqrsModule,
-    ConfigModuleInternal.forConfigs(ServerConfig),
+    ...configs,
     ...internalModules,
   ],
   providers: [...interceptors],

@@ -2,6 +2,7 @@ import { ILike, type QueryRunner, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Injectable } from '@nestjs/common';
 import { Option } from 'oxide.ts';
+import assert from 'assert';
 import { Paginated, type PaginatedQueryParams } from '@dnd-app/ddd';
 import { DbType } from '@dnd-app/core';
 import { User } from '@dnd-app/db';
@@ -55,6 +56,7 @@ export class UserRepository implements UserRepositoryPort {
 
   public async transaction<T>(handler: (qr: QueryRunner) => Promise<T>): Promise<T> {
     const qr = this.userRepository.queryRunner;
+    assert(qr, `Query runner not defined!`);
 
     let data: T;
     await qr.connect();
@@ -63,7 +65,6 @@ export class UserRepository implements UserRepositoryPort {
     try {
       data = await handler(qr);
     } catch (error) {
-      data = null;
       await qr.rollbackTransaction();
       throw error;
     } finally {
@@ -74,7 +75,7 @@ export class UserRepository implements UserRepositoryPort {
   }
 
   public async delete(entity: User): Promise<boolean> {
-    return (await this.userRepository.delete(entity.id))?.affected > 0;
+    return ((await this.userRepository.delete(entity.id))?.affected ?? 0) > 0;
   }
 
   public async findOneById(id: string): Promise<Option<User>> {

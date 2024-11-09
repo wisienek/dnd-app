@@ -1,0 +1,19 @@
+{
+  "name": "mailer",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/backend/mailer/src",
+  "projectType": "library",
+  "tags": ["scope:backend", "scope:mailer", "type:lib"],
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/backend/mailer/jest.config.ts"
+      }
+    }
+  }
+}

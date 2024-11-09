@@ -1,20 +1,20 @@
 import type { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
-import { DataSourceOptions } from 'typeorm';
+import type { DataSourceOptions } from 'typeorm';
 import { join } from 'path';
-import { DatabaseConfig, getStaticConfig } from '@dnd-app/config';
+import { DatabaseSchema } from '@dnd-app/config';
 import { DbType } from '@dnd-app/core';
 import { RefreshToken, User, UserBasicAuth } from './entities/idm';
 import { InitialMigration1727789756173 } from './migrations/idm';
 
 const getDefaultConfig = (): PostgresConnectionOptions => {
-  const config = getStaticConfig(DatabaseConfig);
+  const config = DatabaseSchema.parse(process.env);
 
   return {
     type: 'postgres',
-    host: config.host,
-    port: config.port,
-    username: config.user,
-    password: config.password,
+    host: config.DB_HOST,
+    port: config.DB_PORT,
+    username: config.DB_USERNAME,
+    password: config.DB_PASSWORD,
     schema: 'public',
     migrationsTableName: 'migrations',
   };

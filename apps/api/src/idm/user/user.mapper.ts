@@ -1,18 +1,35 @@
+import { AutomapperProfile, InjectMapper } from '@automapper/nestjs';
+import { createMap, Mapper, MappingProfile } from '@automapper/core';
 import { Inject, Injectable } from '@nestjs/common';
-import { Mapper } from '@dnd-app/ddd';
+import type { Mapper as DMapper } from '@dnd-app/ddd';
 import { User } from '@dnd-app/db';
 import { BasicAuthEntity, RefreshTokenEntity, UserEntity } from './domain';
 import { USER_REPOSITORY } from './user.di-tokens';
-import { UserRepositoryPort } from './database';
+import type { UserRepositoryPort } from './database';
 import { UserResponseDto } from './dto';
 
-// TODO: Change to automapper
 @Injectable()
-export class UserMapper implements Mapper<UserEntity, User, UserResponseDto> {
+export class UserMapper extends AutomapperProfile implements DMapper<UserEntity, User, UserResponseDto> {
   constructor(
+    @InjectMapper() private mapper: Mapper,
     @Inject(USER_REPOSITORY)
     private userRepository: UserRepositoryPort
-  ) {}
+  ) {
+    super(mapper);
+  }
+
+  get profile(): MappingProfile {
+    return (mapper) => {
+      // toPersistence
+      createMap(mapper, UserEntity, User);
+
+      // toDomain
+      createMap(mapper, User, UserEntity);
+
+      // toResponse
+      createMap(mapper, UserEntity, UserResponseDto);
+    };
+  }
 
   async toPersistence(entity: UserEntity): Promise<User> {
     const copy = entity.getProps();

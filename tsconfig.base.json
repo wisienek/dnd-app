@@ -1,6 +1,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "strict": true,
     "strictPropertyInitialization": false,
     "rootDir": ".",
     "types": ["node", "jest"],
@@ -31,6 +32,7 @@
       "@dnd-app/dto": ["libs/shared/src/dto/index.ts"],
       "@dnd-app/enums": ["libs/shared/src/enums/index.ts"],
       "@dnd-app/exceptions": ["libs/hex/exceptions/src/index.ts"],
+      "@dnd-app/mailer": ["libs/backend/mailer/src/index.ts"],
       "@dnd-app/mapper": ["libs/backend/mapper/src/index.ts"],
       "@dnd-app/schema": ["libs/shared/src/schema/index.ts"],
       "@dnd-app/types": ["libs/shared/src/types/index.ts"],

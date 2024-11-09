@@ -26,8 +26,6 @@ export class UserEntity extends AggregateRoot<UserProps> {
 
     const user = new UserEntity({ id, props });
 
-    basicAuth.setUser(user);
-
     user.addEvent(
       new UserCreatedDomainEvent({
         aggregateId: id,

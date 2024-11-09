@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { AwsConfig, ConfigModuleInternal, ProjectConfig } from '@dnd-app/config';
+import { AwsConfig, getConfigs, ProjectConfig } from '@dnd-app/config';
 import { S3Service } from './s3.service';
 
 @Module({
-  imports: [ConfigModuleInternal.forConfigs(AwsConfig, ProjectConfig)],
+  imports: [...getConfigs(AwsConfig, ProjectConfig)],
   providers: [S3Service],
   exports: [S3Service],
 })

@@ -20,7 +20,7 @@ export class UserProps {
   activateToken?: string;
   resetPasswordToken?: string;
   changeEmailToken?: string;
-  deletedDate: Date;
+  deletedDate?: Date;
   basicAuth: BasicAuthEntity;
   refreshTokens: RefreshTokenEntity[];
 }
