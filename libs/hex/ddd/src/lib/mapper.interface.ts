@@ -1,4 +1,4 @@
-import { DomainEntity as DE } from './entity.base';
+import type { DomainEntity as DE } from './entity.base';
 
 export interface Mapper<DomainEntity extends DE<any>, DbRecord, Response = any> {
   toPersistence(entity: DomainEntity): DbRecord | Promise<DbRecord>;

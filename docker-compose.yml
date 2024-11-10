@@ -20,7 +20,6 @@ services:
     ports:
       - ${DB_PORT}:5432
     volumes:
-      - ./.docker/game_db:/var/lib/postgresql/data
       - ./libs/backend/database/src/cli-data-source/init-scripts:/docker-entrypoint-initdb.d
     extra_hosts:
       - 'host.docker.internal:host-gateway'
@@ -74,4 +73,3 @@ services:
     ports:
       - '${SMTP_PORT}:465'
       - '${SMTP_WEB_PORT}:1080'
-

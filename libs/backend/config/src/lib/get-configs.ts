@@ -5,7 +5,9 @@ export const getConfigs = (...configs: ZodConfig<any>[]) => {
   return configs.map((config) =>
     ZodConfigModule.forRootAsync({
       config: config,
-      loader: dotEnvLoader(),
+      loader: dotEnvLoader({
+        expandVariables: true,
+      }),
     })
   );
 };

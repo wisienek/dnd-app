@@ -1,8 +1,8 @@
 export class Paginated<T> {
-  readonly count: number;
-  readonly limit: number;
-  readonly page: number;
-  readonly data: readonly T[];
+  declare readonly count: number;
+  declare readonly limit: number;
+  declare readonly page: number;
+  declare readonly data: readonly T[];
 
   constructor(props: Paginated<T>) {
     this.count = props.count;

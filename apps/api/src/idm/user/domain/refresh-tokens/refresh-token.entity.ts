@@ -1,5 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
-import { AggregateID, AggregateRoot } from '@dnd-app/ddd';
+import dayjs from 'dayjs';
+import { type AggregateID, AggregateRoot } from '@dnd-app/ddd';
+import { ApiConfig } from '@dnd-app/config';
 import { RefreshTokenProps } from './refresh-token.type';
 import { UserEntity } from '../user';
 
@@ -13,7 +15,7 @@ export class RefreshTokenEntity extends AggregateRoot<RefreshTokenProps> {
       props: {
         id,
         token: uuidv4(),
-        expirationTimestamp: undefined,
+        expirationTimestamp: dayjs().add(new ApiConfig().TOKEN_EXPIRATION_HOURS, 'h').toDate(),
         user,
       },
     });
