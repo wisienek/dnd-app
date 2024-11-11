@@ -20,27 +20,27 @@ export class DatabaseLogger extends SimpleLogger implements TLogger {
     return logger;
   }
 
-  logQuery(query: string, parameters?: any[], queryRunner?: QueryRunner) {
+  logQuery(query: string, parameters?: any[], _queryRunner?: QueryRunner) {
     const paramText = parameters && parameters.length ? ` -- Parameters: ${JSON.stringify(parameters)}` : '';
     this.debug(`Executed Query: ${query}${paramText}`);
   }
 
-  logQueryError(error: string | Error, query: string, parameters?: any[], queryRunner?: QueryRunner) {
+  logQueryError(error: string | Error, query: string, parameters?: any[], _queryRunner?: QueryRunner) {
     const paramText = parameters && parameters.length ? ` -- Parameters: ${JSON.stringify(parameters)}` : '';
     const errorMessage = typeof error === 'string' ? error : error.message;
     this.error(`Query Failed: ${query}${paramText}\nError: ${errorMessage}`, { error });
   }
 
-  logQuerySlow(time: number, query: string, parameters?: any[], queryRunner?: QueryRunner) {
+  logQuerySlow(time: number, query: string, parameters?: any[], _queryRunner?: QueryRunner) {
     const paramText = parameters && parameters.length ? ` -- Parameters: ${JSON.stringify(parameters)}` : '';
     this.warn(`Slow Query Detected (Execution Time: ${time}ms): ${query}${paramText}`);
   }
 
-  logSchemaBuild(message: string, queryRunner?: QueryRunner) {
+  logSchemaBuild(message: string, _queryRunner?: QueryRunner) {
     this.debug(`Schema Build: ${message}`);
   }
 
-  logMigration(message: string, queryRunner?: QueryRunner) {
+  logMigration(message: string, _queryRunner?: QueryRunner) {
     this.debug(`Migration: ${message}`);
   }
 }

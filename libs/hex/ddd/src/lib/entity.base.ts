@@ -35,7 +35,7 @@ export abstract class DomainEntity<EntityProps> {
   protected readonly props: EntityProps;
   protected abstract _id: AggregateID;
   private readonly _createdAt: Date;
-  private _updatedAt: Date;
+  private readonly _updatedAt: Date;
 
   get id(): AggregateID {
     return this._id;
