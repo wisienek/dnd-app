@@ -30,3 +30,11 @@ exclude:
 
 #Specify Qodana linter for analysis (Applied in CI/CD pipeline)
 linter: jetbrains/qodana-js:latest
+
+failureConditions:
+  severityThresholds:
+    critical: 1
+    high: 10
+  testCoverageThresholds:
+    fresh: 10
+    total: 100
