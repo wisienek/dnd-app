@@ -1,13 +1,14 @@
-import { beforeMap, createMap, forMember, mapFrom, type Mapper, type MappingProfile } from '@automapper/core';
+import { createMap, forMember, mapFrom, type Mapper, type MappingProfile } from '@automapper/core';
 import { AutomapperProfile, InjectMapper } from '@automapper/nestjs';
 import { Inject, Injectable } from '@nestjs/common';
-import { pick } from 'lodash';
+import { plainToInstance } from 'class-transformer';
 import type { Mapper as DMapper } from '@dnd-app/ddd';
 import { User } from '@dnd-app/db';
+import { CreateUserProps, UserEntity } from './domain';
 import type { UserRepositoryPort } from './database';
 import { USER_REPOSITORY } from './user.di-tokens';
 import { UserResponseDto } from './dto';
-import { UserEntity } from './domain';
+import { ID_RESPONSE_INCLUDE_GROUP } from '@dnd-app/dto';
 
 @Injectable()
 export class UserMapper extends AutomapperProfile implements DMapper<UserEntity, User, UserResponseDto> {
@@ -67,24 +68,6 @@ export class UserMapper extends AutomapperProfile implements DMapper<UserEntity,
           mapFrom((s) => s.getProps().resetPasswordToken)
         )
       );
-
-      // toDomain
-      createMap(
-        mapper,
-        User,
-        UserEntity,
-        beforeMap(async (source, destination) => {
-          console.log(`Source mapping`, source);
-          const createdUser = await UserEntity.create(
-            pick(source, ['firstName', 'lastName', 'email', 'locale']),
-            source?.basicAuth?.password
-          );
-          Object.assign(destination, createdUser);
-        })
-      );
-
-      // toResponse
-      createMap(mapper, UserEntity, UserResponseDto);
     };
   }
 
@@ -93,11 +76,18 @@ export class UserMapper extends AutomapperProfile implements DMapper<UserEntity,
     return this.userRepository.insert(mapped);
   }
 
-  toDomain(record: User): UserEntity {
-    return this.mapper.map(record, User, UserEntity);
+  async toDomain(record: User): Promise<UserEntity> {
+    return UserEntity.create(
+      plainToInstance(CreateUserProps, record, { excludeExtraneousValues: true, exposeUnsetFields: false }),
+      record?.basicAuth?.password ?? ''
+    );
   }
 
   toResponse(entity: UserEntity): UserResponseDto {
-    return this.mapper.map(entity, UserEntity, UserResponseDto);
+    return plainToInstance(UserResponseDto, entity.getProps(), {
+      excludeExtraneousValues: true,
+      exposeUnsetFields: true,
+      groups: [ID_RESPONSE_INCLUDE_GROUP],
+    });
   }
 }

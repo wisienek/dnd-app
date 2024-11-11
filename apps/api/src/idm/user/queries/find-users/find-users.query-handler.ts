@@ -32,10 +32,13 @@ export class FindUsersQueryHandler implements IQueryHandler {
 
   async execute(query: FindUsersQuery): Promise<Result<Paginated<UserEntity>, Error>> {
     const paginatedUsers = await this.userRepo.findAllPaginated(query);
+    const { data: dataToMap } = paginatedUsers;
+
+    const mapped = await Promise.all(dataToMap.map((dbUser) => this.usersMapper.toDomain(dbUser)));
 
     const entityUsersPaginatedInput = {
       ...paginatedUsers,
-      data: paginatedUsers.data.map((databaseUser) => this.usersMapper.toDomain(databaseUser)),
+      data: mapped,
     } satisfies Paginated<UserEntity>;
 
     return Ok(new Paginated(entityUsersPaginatedInput));

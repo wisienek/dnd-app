@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid';
 import {
   ArgumentInvalidException,
   ArgumentNotProvidedException,
@@ -22,7 +23,9 @@ export interface CreateEntityProps<T> {
 }
 
 export abstract class DomainEntity<EntityProps> {
-  constructor({ id, createdAt, updatedAt, props }: CreateEntityProps<EntityProps>) {
+  constructor(data: CreateEntityProps<EntityProps>) {
+    const { id = uuidv4(), createdAt = undefined, updatedAt = undefined, props = {} as EntityProps } = data;
+
     this.setId(id);
     this.validateProps(props);
     const now = new Date();

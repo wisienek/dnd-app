@@ -22,7 +22,7 @@ export class CreateUserService implements ICommandHandler {
   ) {}
 
   async execute(command: CreateUserCommand): Promise<Result<AggregateID, UserAlreadyExistsError>> {
-    const exists = await this.userRepo.findLikeEmail(command.email);
+    const exists = await this.userRepo.findByEmail(command.email);
     if (exists) {
       return Err(new UserAlreadyExistsError());
     }

@@ -1,4 +1,4 @@
-import { ILike, type QueryRunner, Repository } from 'typeorm';
+import { ILike, IsNull, type QueryRunner, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Injectable } from '@nestjs/common';
 import { Option } from 'oxide.ts';
@@ -25,14 +25,14 @@ export class UserRepository implements UserRepositoryPort {
     }
   }
 
-  public async findLikeEmail(email: string): Promise<User[]> {
+  public async findByEmail(email: string): Promise<User | null> {
     return this.userRepository
       .createQueryBuilder('user')
       .where({
-        email: ILike(this.getLikeEmail(email)),
-        deletedDate: null,
+        email: ILike(email),
+        deletedDate: IsNull(),
       })
-      .getMany();
+      .getOne();
   }
 
   public async findAll(): Promise<User[]> {
@@ -87,9 +87,5 @@ export class UserRepository implements UserRepositoryPort {
 
   public async findOneById(id: string): Promise<Option<User>> {
     return Option(await this.userRepository.findOneBy({ id }));
-  }
-
-  private getLikeEmail(email: string): string {
-    return email.split('@').join('%@');
   }
 }

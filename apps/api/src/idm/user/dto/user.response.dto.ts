@@ -1,9 +1,9 @@
 import { IsBoolean, IsEmail, IsEnum, IsString, MaxLength, MinLength } from 'class-validator';
+import { Expose, Type } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
+import { AutoMap } from '@automapper/classes';
 import { Locales, UserRole } from '@dnd-app/core';
 import { ResponseBase } from '@dnd-app/dto';
-import { AutoMap } from '@automapper/classes';
 
 export class UserResponseDto extends ResponseBase {
   @ApiProperty({
@@ -14,6 +14,7 @@ export class UserResponseDto extends ResponseBase {
   @MinLength(5)
   @IsEmail()
   @AutoMap()
+  @Expose()
   email: string;
 
   @ApiProperty({
@@ -23,6 +24,7 @@ export class UserResponseDto extends ResponseBase {
   @IsString()
   @MinLength(3)
   @AutoMap()
+  @Expose()
   firstName: string;
 
   @ApiProperty({
@@ -32,6 +34,7 @@ export class UserResponseDto extends ResponseBase {
   @IsString()
   @MinLength(3)
   @AutoMap()
+  @Expose()
   lastName: string;
 
   @ApiProperty({
@@ -42,6 +45,7 @@ export class UserResponseDto extends ResponseBase {
   })
   @IsEnum(Locales)
   @AutoMap(() => String)
+  @Expose()
   locale: Locales;
 
   @ApiProperty({
@@ -52,6 +56,7 @@ export class UserResponseDto extends ResponseBase {
   })
   @IsEnum(UserRole)
   @AutoMap(() => String)
+  @Expose()
   type: UserRole;
 
   @ApiProperty({
@@ -62,5 +67,6 @@ export class UserResponseDto extends ResponseBase {
   @IsBoolean()
   @Type(() => Boolean)
   @AutoMap()
+  @Expose()
   isEmailVerified: boolean;
 }

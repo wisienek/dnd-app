@@ -1,6 +1,6 @@
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { RequestContextService } from '@dnd-app/application';
-import { LoggerPort } from '@dnd-app/core';
+import type { LoggerPort } from '@dnd-app/core';
 import { DomainEvent } from './domain-event.base';
 import { DomainEntity } from './entity.base';
 

@@ -22,7 +22,7 @@ export class DeleteUserService {
     }
     const unwrapped = found.unwrap();
 
-    const user = this.userMapper.toDomain(unwrapped);
+    const user = await this.userMapper.toDomain(unwrapped);
     user.delete();
     const result = await this.userRepo.delete(unwrapped);
 
