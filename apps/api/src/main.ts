@@ -1,11 +1,12 @@
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import { SimpleLogger } from '@dnd-app/be-logger';
 import { ApiConfig } from '@dnd-app/config';
 import { AppModule } from './app';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { logger: SimpleLogger.create('bootstrap') });
 
   app.useGlobalPipes(new ValidationPipe({ transform: true, whitelist: true }));
   app.enableCors({

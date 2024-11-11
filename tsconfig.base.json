@@ -24,6 +24,7 @@
     "paths": {
       "@dnd-app/application": ["libs/hex/application/src/index.ts"],
       "@dnd-app/aws": ["libs/backend/aws/src/index.ts"],
+      "@dnd-app/be-logger": ["libs/backend/logger/src/index.ts"],
       "@dnd-app/config": ["libs/backend/config/src/index.ts"],
       "@dnd-app/core": ["libs/core/src/index.ts"],
       "@dnd-app/data": ["libs/shared/src/data/index.ts"],

@@ -7,6 +7,7 @@ import { classes } from '@automapper/classes';
 import { CqrsModule } from '@nestjs/cqrs';
 import { ContextInterceptor, ExceptionInterceptor } from '@dnd-app/application';
 import { ApiConfig, ProjectConfig, getConfigs } from '@dnd-app/config';
+import { LoggerModule } from '@dnd-app/be-logger';
 import { DataBaseModule } from '@dnd-app/db';
 import { UserModule } from '../idm';
 
@@ -27,6 +28,7 @@ const configs = getConfigs(ProjectConfig, ApiConfig);
 
 @Module({
   imports: [
+    LoggerModule,
     DataBaseModule,
     EventEmitterModule.forRoot(),
     RequestContextModule,
