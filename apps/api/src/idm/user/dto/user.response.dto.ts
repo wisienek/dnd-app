@@ -3,6 +3,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { Locales, UserRole } from '@dnd-app/core';
 import { ResponseBase } from '@dnd-app/dto';
+import { AutoMap } from '@automapper/classes';
 
 export class UserResponseDto extends ResponseBase {
   @ApiProperty({
@@ -12,6 +13,7 @@ export class UserResponseDto extends ResponseBase {
   @MaxLength(320)
   @MinLength(5)
   @IsEmail()
+  @AutoMap()
   email: string;
 
   @ApiProperty({
@@ -20,6 +22,7 @@ export class UserResponseDto extends ResponseBase {
   })
   @IsString()
   @MinLength(3)
+  @AutoMap()
   firstName: string;
 
   @ApiProperty({
@@ -28,6 +31,7 @@ export class UserResponseDto extends ResponseBase {
   })
   @IsString()
   @MinLength(3)
+  @AutoMap()
   lastName: string;
 
   @ApiProperty({
@@ -37,6 +41,7 @@ export class UserResponseDto extends ResponseBase {
     example: Locales.EN,
   })
   @IsEnum(Locales)
+  @AutoMap(() => String)
   locale: Locales;
 
   @ApiProperty({
@@ -46,6 +51,7 @@ export class UserResponseDto extends ResponseBase {
     example: UserRole.USER,
   })
   @IsEnum(UserRole)
+  @AutoMap(() => String)
   type: UserRole;
 
   @ApiProperty({
@@ -55,5 +61,6 @@ export class UserResponseDto extends ResponseBase {
   })
   @IsBoolean()
   @Type(() => Boolean)
+  @AutoMap()
   isEmailVerified: boolean;
 }

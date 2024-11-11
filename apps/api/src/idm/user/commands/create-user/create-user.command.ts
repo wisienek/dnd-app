@@ -14,6 +14,6 @@ export class CreateUserCommand extends Command {
     this.firstName = props.firstName;
     this.lastName = props.lastName;
     this.locale = props.locale;
-    this.lastName = props.lastName;
+    this.password = props.password;
   }
 }

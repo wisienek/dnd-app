@@ -1,3 +1,4 @@
+import { AutoMap } from '@automapper/classes';
 import {
   Column,
   DeleteDateColumn,
@@ -6,28 +7,33 @@ import {
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
-  Relation,
+  type Relation,
 } from 'typeorm';
-import { UserBasicAuth } from './user-basic-auth.entity';
 import { Locales, UserRole } from '@dnd-app/core';
+import { UserBasicAuth } from './user-basic-auth.entity';
 import { RefreshToken } from './refresh-token.entity';
 
 @Entity()
 @Index(['email', 'deletedDate'], { unique: true })
 export class User {
   @PrimaryGeneratedColumn('uuid')
+  @AutoMap()
   id: string;
 
   @Column()
+  @AutoMap()
   firstName: string;
 
   @Column()
+  @AutoMap()
   lastName: string;
 
   @Column()
+  @AutoMap()
   email: string;
 
   @Column({ type: 'enum', enum: Locales, default: Locales.EN })
+  @AutoMap(() => String)
   locale: Locales;
 
   @Column({
@@ -35,6 +41,7 @@ export class User {
     enum: UserRole,
     default: UserRole.USER,
   })
+  @AutoMap(() => String)
   type: UserRole;
 
   // Verification
@@ -51,12 +58,14 @@ export class User {
   changeEmailToken?: string;
 
   @DeleteDateColumn()
-  deletedDate: Date;
+  @AutoMap()
+  deletedDate?: Date;
 
   // auth
   @OneToOne(() => UserBasicAuth, (auth) => auth.user, { cascade: true })
   basicAuth: Relation<UserBasicAuth>;
 
   @OneToMany(() => RefreshToken, (token) => token.user, { cascade: true })
+  @AutoMap(() => [RefreshToken])
   refreshTokens: Relation<RefreshToken>[];
 }

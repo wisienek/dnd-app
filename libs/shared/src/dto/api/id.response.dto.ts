@@ -1,5 +1,6 @@
-import { ApiProperty } from '@nestjs/swagger';
 import { IsString, NotEquals } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
+import { AutoMap } from '@automapper/classes';
 
 export class IdResponse {
   constructor(id: string) {
@@ -9,5 +10,6 @@ export class IdResponse {
   @ApiProperty({ example: '2cdc8ab1-6d50-49cc-ba14-54e4ac7ec231' })
   @IsString()
   @NotEquals('')
+  @AutoMap()
   readonly id: string;
 }

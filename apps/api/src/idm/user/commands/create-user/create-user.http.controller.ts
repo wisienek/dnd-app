@@ -3,7 +3,7 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CommandBus } from '@nestjs/cqrs';
 import { match, Result } from 'oxide.ts';
 import { ApiErrorResponse, IdResponse } from '@dnd-app/dto';
-import { AggregateID } from '@dnd-app/ddd';
+import type { AggregateID } from '@dnd-app/ddd';
 import { routesV1 } from '@dnd-app/core';
 import { CreateUserCommand } from './create-user.command';
 import { CreateUserRequestDto } from './create-user.dto';

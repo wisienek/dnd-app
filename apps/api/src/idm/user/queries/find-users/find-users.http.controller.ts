@@ -1,8 +1,7 @@
-import { Body, Controller, Get, HttpStatus, Query } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Controller, Get, HttpStatus, Query } from '@nestjs/common';
 import { QueryBus } from '@nestjs/cqrs';
 import { Result } from 'oxide.ts';
-import { PaginatedQueryRequestDto } from '@dnd-app/dto';
 import { routesV1 } from '@dnd-app/core';
 import { Paginated } from '@dnd-app/ddd';
 import { FindUsersRequestDto } from './find-users.request.dto';
@@ -25,15 +24,8 @@ export class FindUsersHttpController {
     status: HttpStatus.OK,
     type: UserPaginatedResponseDto,
   })
-  async findUsers(
-    @Body() request: FindUsersRequestDto,
-    @Query() queryParams: PaginatedQueryRequestDto
-  ): Promise<UserPaginatedResponseDto> {
-    const query = new FindUsersQuery({
-      ...request,
-      limit: queryParams?.limit,
-      page: queryParams?.page,
-    });
+  async findUsers(@Query() queryParams: FindUsersRequestDto): Promise<UserPaginatedResponseDto> {
+    const query = new FindUsersQuery(queryParams);
     const result: Result<Paginated<UserEntity>, Error> = await this.queryBus.execute(query);
 
     const paginated = result.unwrap();

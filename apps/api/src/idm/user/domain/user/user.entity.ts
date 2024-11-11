@@ -24,6 +24,8 @@ export class UserEntity extends AggregateRoot<UserProps> {
       refreshTokens: [],
     } satisfies UserProps;
 
+    console.log({ id, props });
+
     const user = new UserEntity({ id, props });
 
     user.addEvent(

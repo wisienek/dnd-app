@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IdResponse } from './id.response.dto';
+import { AutoMap } from '@automapper/classes';
 
 export interface BaseResponseProps {
   id: string;
@@ -20,8 +21,10 @@ export class ResponseBase extends IdResponse {
   }
 
   @ApiProperty({ example: '2020-11-24T17:43:15.970Z' })
+  @AutoMap()
   readonly createdAt: string;
 
   @ApiProperty({ example: '2020-11-24T17:43:15.970Z' })
+  @AutoMap()
   readonly updatedAt: string;
 }

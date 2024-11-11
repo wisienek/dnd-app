@@ -30,6 +30,7 @@ export class UserRepository implements UserRepositoryPort {
       .createQueryBuilder('user')
       .where({
         email: ILike(this.getLikeEmail(email)),
+        deletedDate: null,
       })
       .getMany();
   }
@@ -39,12 +40,16 @@ export class UserRepository implements UserRepositoryPort {
   }
 
   public async findAllPaginated(params: PaginatedQueryParams): Promise<Paginated<User>> {
-    const [users, count] = await this.userRepository
+    const qb = this.userRepository
       .createQueryBuilder('user')
       .limit(params.limit)
-      .offset(params.limit * params.page + (params?.offset ?? 0))
-      .addOrderBy(params.orderBy.field, params.orderBy.param)
-      .getManyAndCount();
+      .offset(params.limit * params.page + (params?.offset ?? 0));
+
+    if (params.orderBy) {
+      qb.addOrderBy(params.orderBy.field, params.orderBy.param);
+    }
+
+    const [users, count] = await qb.getManyAndCount();
 
     return new Paginated({
       data: users,
@@ -55,7 +60,7 @@ export class UserRepository implements UserRepositoryPort {
   }
 
   public async transaction<T>(handler: (qr: QueryRunner) => Promise<T>): Promise<T> {
-    const qr = this.userRepository.queryRunner;
+    const qr = this.userRepository.manager.connection.createQueryRunner();
     assert(qr, `Query runner not defined!`);
 
     let data: T;
@@ -64,7 +69,9 @@ export class UserRepository implements UserRepositoryPort {
 
     try {
       data = await handler(qr);
+      await qr.commitTransaction();
     } catch (error) {
+      console.error(error);
       await qr.rollbackTransaction();
       throw error;
     } finally {

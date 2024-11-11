@@ -1,9 +1,9 @@
-import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
+import { type IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { Inject } from '@nestjs/common';
 import { Ok, Result } from 'oxide.ts';
-import { Paginated, PaginatedParams, PaginatedQueryBase } from '@dnd-app/ddd';
+import { Paginated, type PaginatedParams, PaginatedQueryBase } from '@dnd-app/ddd';
 import { USER_REPOSITORY } from '../../user.di-tokens';
-import { UserRepositoryPort } from '../../database';
+import type { UserRepositoryPort } from '../../database';
 import { UserMapper } from '../../user.mapper';
 import { UserEntity } from '../../domain';
 
@@ -35,7 +35,7 @@ export class FindUsersQueryHandler implements IQueryHandler {
 
     const entityUsersPaginatedInput = {
       ...paginatedUsers,
-      data: paginatedUsers.data.map((d) => this.usersMapper.toDomain(d)),
+      data: paginatedUsers.data.map((databaseUser) => this.usersMapper.toDomain(databaseUser)),
     } satisfies Paginated<UserEntity>;
 
     return Ok(new Paginated(entityUsersPaginatedInput));
