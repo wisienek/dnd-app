@@ -1,5 +1,5 @@
 import { Module, Global, Logger } from '@nestjs/common';
-import { SimpleLogger } from './loggers/simple-logger';
+import { SimpleLogger } from './loggers';
 
 const pickedLogger = {
   provide: Logger,

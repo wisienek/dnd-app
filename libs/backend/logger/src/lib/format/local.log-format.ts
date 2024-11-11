@@ -51,7 +51,7 @@ export class LocalLogFormat {
           JSON.parse(
             JSON.stringify(
               Object.fromEntries(
-                Object.entries(request).filter(([k, v]) => (typeof v === 'object' ? Object.keys(v).length : true))
+                Object.entries(request).filter(([_, v]) => (typeof v === 'object' ? Object.keys(v).length : true))
               )
             )
           ),
